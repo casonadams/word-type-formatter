@@ -13,3 +13,20 @@ impl Formatter for AnimalFormatter {
         word
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use rstest::rstest;
+
+    #[rstest]
+    #[case("horse", "h*o*r*s*e")]
+    #[case("giraffe", "g*i*r*a*f*f*e")]
+    #[case("mouse", "m*o*u*s*e")]
+    #[case("pigeon", "p*i*g*e*o*n")]
+    #[case("", "")]
+    fn test_format(#[case] input: &str, #[case] expected: &str) {
+        let actual = AnimalFormatter::format(&AnimalFormatter, input);
+        assert_eq!(expected, &actual);
+    }
+}
