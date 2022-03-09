@@ -38,3 +38,18 @@ When the string contains an unrecongized word, return a string stating: "Unknown
 - giraffe
 - mouse
 - pigeon
+
+
+## usage
+
+- Run tests
+
+```sh
+cargo test
+```
+
+- Run with input
+
+```sh
+cargo run -- -i <SOME_STRING>
+```
