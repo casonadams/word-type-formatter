@@ -1,8 +1,8 @@
-use super::Formatter;
+use super::{Formatter, FormatterError};
 
 pub struct AnimalFormatter;
 impl Formatter for AnimalFormatter {
-    fn format(&self, s: &str) -> String {
+    fn format(&self, s: &str) -> Result<String, FormatterError> {
         let mut word: String = String::from("");
         for (i, l) in s.chars().enumerate() {
             word.push(l);
@@ -10,7 +10,7 @@ impl Formatter for AnimalFormatter {
                 word.push('*')
             }
         }
-        word
+        Ok(word)
     }
 }
 
@@ -27,6 +27,6 @@ mod tests {
     #[case("", "")]
     fn test_format(#[case] input: &str, #[case] expected: &str) {
         let actual = AnimalFormatter::format(&AnimalFormatter, input);
-        assert_eq!(expected, &actual);
+        assert_eq!(expected, &actual.unwrap());
     }
 }

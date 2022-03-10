@@ -1,9 +1,9 @@
-use super::Formatter;
+use super::{Formatter, FormatterError};
 
 pub struct FruitFormatter;
 impl Formatter for FruitFormatter {
-    fn format(&self, s: &str) -> String {
-        s.to_uppercase()
+    fn format(&self, s: &str) -> Result<String, FormatterError> {
+        Ok(s.to_uppercase())
     }
 }
 
@@ -19,6 +19,6 @@ mod tests {
     #[case("", "")]
     fn test_format(#[case] input: &str, #[case] expected: &str) {
         let actual = FruitFormatter::format(&FruitFormatter, input);
-        assert_eq!(expected, &actual);
+        assert_eq!(expected, &actual.unwrap());
     }
 }

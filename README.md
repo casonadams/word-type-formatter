@@ -2,15 +2,19 @@
 
 ## Problem
 
-Given a space-seperated list of words, format each word according to the following rules:
+**Given** a space-seperated list of words
+**WHEN** formating each word according to the following rules:
 
 - Fruits should be in all caps (e.g. "BANANA")
 - Vegetables should be bracketed (e.g. "[carrot]")
 - Animals should be filled with asterisks (e.g. h\*o\*r\*s\*e)
 
-Return a string of the formatted space-seperated words
+- An unrecongized word, should return a string stating: "Unknown word: WORD" where "WORD" is replaced by the unknown word (e.g. "Unknown word: chair")
+
+**THEN** return a string of the formatted space-seperated words
+
 Lists of supported fruits, vegetables, and animals are provided below.
-When the string contains an unrecongized word, return a string stating: "Unknown word: WORD" where "WORD" is replaced by the unknown word (e.g. "Unknown word: chair")
+
 
 ## Goals
 

@@ -1,9 +1,9 @@
-use super::Formatter;
+use super::{Formatter, FormatterError};
 
 pub struct VegetableFormatter;
 impl Formatter for VegetableFormatter {
-    fn format(&self, s: &str) -> String {
-        format!("[{}]", s)
+    fn format(&self, s: &str) -> Result<String, FormatterError> {
+        Ok(format!("[{}]", s))
     }
 }
 
@@ -19,6 +19,6 @@ mod tests {
     #[case("", "[]")]
     fn test_format(#[case] input: &str, #[case] expected: &str) {
         let actual = VegetableFormatter::format(&VegetableFormatter, input);
-        assert_eq!(expected, &actual);
+        assert_eq!(expected, &actual.unwrap());
     }
 }

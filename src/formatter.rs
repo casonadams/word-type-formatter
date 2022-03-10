@@ -1,3 +1,5 @@
+use std::fmt;
+
 pub mod animal_formatter;
 pub mod fruit_formatter;
 pub mod unknown_formatter;
@@ -8,11 +10,26 @@ pub use fruit_formatter::FruitFormatter;
 pub use unknown_formatter::UnknownFormatter;
 pub use vegetable_formatter::VegetableFormatter;
 
-pub trait Formatter {
-    fn format(&self, s: &str) -> String;
+#[derive(Debug, PartialEq)]
+pub enum FormatterError {
+    UnknownFormatterError(String),
 }
 
-pub fn format(input: &str) -> String {
+impl fmt::Display for FormatterError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match *self {
+            FormatterError::UnknownFormatterError(ref cause) => {
+                write!(f, "Unknown word: {}", cause)
+            }
+        }
+    }
+}
+
+pub trait Formatter {
+    fn format(&self, s: &str) -> Result<String, FormatterError>;
+}
+
+pub fn format(input: &str) -> Result<String, FormatterError> {
     let words: Vec<&str> = input.split(' ').collect();
     let mut output: Vec<String> = vec![];
 
@@ -32,14 +49,14 @@ pub fn format(input: &str) -> String {
             _ => Box::new(UnknownFormatter),
         };
 
-        output.push(formatter.format(clean_word));
+        output.push(formatter.format(clean_word)?);
     }
-    output.join(" ")
+    Ok(output.join(" "))
 }
 
 #[cfg(test)]
 mod tests {
-    use super::format;
+    use super::*;
     use rstest::rstest;
 
     #[rstest]
@@ -49,9 +66,11 @@ mod tests {
         "horse giraffe mouse Pigeon\n",
         "h*o*r*s*e g*i*r*a*f*f*e m*o*u*s*e p*i*g*e*o*n"
     )]
-    #[case("box Chair\n", "Unknown word: box Unknown word: chair")]
+    #[case("box Chair\n", "Unknown word: box")]
     fn test_format(#[case] input: &str, #[case] expected: &str) {
-        let actual = format(input);
-        assert_eq!(expected, &actual);
+        match format(input) {
+            Ok(actual) => assert_eq!(actual, expected),
+            Err(actual) => assert_eq!(actual.to_string(), expected.to_string()),
+        }
     }
 }

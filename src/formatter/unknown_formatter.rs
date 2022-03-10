@@ -1,9 +1,9 @@
-use super::Formatter;
+use super::{Formatter, FormatterError};
 
 pub struct UnknownFormatter;
 impl Formatter for UnknownFormatter {
-    fn format(&self, s: &str) -> String {
-        format!("Unknown word: {}", s)
+    fn format(&self, s: &str) -> Result<String, FormatterError> {
+        Err(FormatterError::UnknownFormatterError(s.to_string()))
     }
 }
 
@@ -17,6 +17,9 @@ mod tests {
     #[case("", "Unknown word: ")]
     fn test_format(#[case] input: &str, #[case] expected: &str) {
         let actual = UnknownFormatter::format(&UnknownFormatter, input);
-        assert_eq!(expected, &actual);
+        match actual {
+            Ok(actual) => assert_eq!(actual, expected),
+            Err(actual) => assert_eq!(actual.to_string(), expected.to_string()),
+        }
     }
 }
