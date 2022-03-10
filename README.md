@@ -51,7 +51,7 @@ cargo test
 - Pipe string to program
 
 ```sh
-echo "apple dog mango carrot horse foo broccoli potato mouse" | cargo run -q
+cat words.txt | cargo run -q
 
 # => APPLE Unknown word: dog MANGO [carrot] h*o*r*s*e Unknown word: foo [broccoli] Unknown word: potato m*o*u*s*e
 ```
