@@ -66,7 +66,7 @@ mod tests {
         "horse giraffe mouse Pigeon\n",
         "h*o*r*s*e g*i*r*a*f*f*e m*o*u*s*e p*i*g*e*o*n"
     )]
-    #[case("box Chair\n", "Unknown word: box")]
+    #[case("horse box Chair\n", "Unknown word: box")]
     fn test_format(#[case] input: &str, #[case] expected: &str) {
         match format(input) {
             Ok(actual) => assert_eq!(actual, expected),
