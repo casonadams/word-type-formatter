@@ -55,10 +55,16 @@ Lists of supported fruits, vegetables, and animals are provided below.
 cargo test
 ```
 
-- Pipe string to program
+- Pipe known words string to program
 
 ```sh
-cat words.txt | cargo run -q
+printf '%s' 'apple banana mango carrot zucchini broccoli horse giraffe mouse pigeon' | cargo run -q
+# => APPLE BANANA MANGO [carrot] [zucchini] [broccoli] h*o*r*s*e g*i*r*a*f*f*e m*o*u*s*e p*i*g*e*o*n
+```
 
-# => APPLE Unknown word: dog MANGO [carrot] h*o*r*s*e Unknown word: foo [broccoli] Unknown word: potato m*o*u*s*e
+- Pipe unknown words string to program
+
+```sh
+printf '%s' 'Apple' | cargo run -q
+# => Unknown word: Apple
 ```

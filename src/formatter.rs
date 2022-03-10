@@ -34,7 +34,7 @@ pub fn format(input: &str) -> Result<String, FormatterError> {
     let mut output: Vec<String> = vec![];
 
     for word in words {
-        let clean_word: &str = &word.trim().to_lowercase();
+        let clean_word: &str = &word.trim();
         let formatter: Box<dyn Formatter> = match clean_word {
             "apple" => Box::new(FruitFormatter),
             "banana" => Box::new(FruitFormatter),
@@ -60,10 +60,10 @@ mod tests {
     use rstest::rstest;
 
     #[rstest]
-    #[case("Apple banana mango\n", "APPLE BANANA MANGO")]
-    #[case("carrot Zucchini broccoli\n", "[carrot] [zucchini] [broccoli]")]
+    #[case("apple banana mango\n", "APPLE BANANA MANGO")]
+    #[case("carrot zucchini broccoli\n", "[carrot] [zucchini] [broccoli]")]
     #[case(
-        "horse giraffe mouse Pigeon\n",
+        "horse giraffe mouse pigeon\n",
         "h*o*r*s*e g*i*r*a*f*f*e m*o*u*s*e p*i*g*e*o*n"
     )]
     #[case("horse box Chair\n", "Unknown word: box")]
