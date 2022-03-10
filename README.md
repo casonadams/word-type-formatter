@@ -3,6 +3,7 @@
 ## Problem
 
 **Given** a space-seperated list of words
+
 **WHEN** formating each word according to the following rules:
 
 - Fruits should be in all caps (e.g. "BANANA")
@@ -12,6 +13,8 @@
 - An unrecongized word, should return a string stating: "Unknown word: WORD" where "WORD" is replaced by the unknown word (e.g. "Unknown word: chair")
 
 **THEN** return a string of the formatted space-seperated words
+
+**OR** return "Unknown word: WORD"
 
 Lists of supported fruits, vegetables, and animals are provided below.
 
