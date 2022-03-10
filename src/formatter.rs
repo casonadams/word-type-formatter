@@ -12,43 +12,46 @@ pub trait Formatter {
     fn format(&self, s: &str) -> String;
 }
 
-pub fn format_word(word: &str) -> String {
-    let formatter: Box<dyn Formatter> = match word {
-        "apple" => Box::new(FruitFormatter),
-        "banana" => Box::new(FruitFormatter),
-        "mango" => Box::new(FruitFormatter),
-        "carrot" => Box::new(VegetableFormatter),
-        "zucchini" => Box::new(VegetableFormatter),
-        "broccoli" => Box::new(VegetableFormatter),
-        "horse" => Box::new(AnimalFormatter),
-        "giraffe" => Box::new(AnimalFormatter),
-        "mouse" => Box::new(AnimalFormatter),
-        "pigeon" => Box::new(AnimalFormatter),
-        _ => Box::new(UnknownFormatter),
-    };
+pub fn format(input: &str) -> String {
+    let words: Vec<&str> = input.split(' ').collect();
+    let mut output: Vec<String> = vec![];
 
-    formatter.format(word)
+    for word in words {
+        let clean_word = word.trim();
+        let formatter: Box<dyn Formatter> = match clean_word {
+            "apple" => Box::new(FruitFormatter),
+            "banana" => Box::new(FruitFormatter),
+            "mango" => Box::new(FruitFormatter),
+            "carrot" => Box::new(VegetableFormatter),
+            "zucchini" => Box::new(VegetableFormatter),
+            "broccoli" => Box::new(VegetableFormatter),
+            "horse" => Box::new(AnimalFormatter),
+            "giraffe" => Box::new(AnimalFormatter),
+            "mouse" => Box::new(AnimalFormatter),
+            "pigeon" => Box::new(AnimalFormatter),
+            _ => Box::new(UnknownFormatter),
+        };
+
+        output.push(formatter.format(clean_word));
+    }
+    output.join(" ")
 }
 
 #[cfg(test)]
 mod tests {
-    use super::format_word;
+    use super::format;
     use rstest::rstest;
 
     #[rstest]
-    #[case("apple", "APPLE")]
-    #[case("banana", "BANANA")]
-    #[case("mango", "MANGO")]
-    #[case("carrot", "[carrot]")]
-    #[case("zucchini", "[zucchini]")]
-    #[case("broccoli", "[broccoli]")]
-    #[case("horse", "h*o*r*s*e")]
-    #[case("giraffe", "g*i*r*a*f*f*e")]
-    #[case("mouse", "m*o*u*s*e")]
-    #[case("pigeon", "p*i*g*e*o*n")]
-    #[case("chair", "Unknown word: chair")]
-    fn test_format_word(#[case] input: &str, #[case] expected: &str) {
-        let actual = format_word(input);
+    #[case("apple banana mango\n", "APPLE BANANA MANGO")]
+    #[case("carrot zucchini broccoli\n", "[carrot] [zucchini] [broccoli]")]
+    #[case(
+        "horse giraffe mouse pigeon\n",
+        "h*o*r*s*e g*i*r*a*f*f*e m*o*u*s*e p*i*g*e*o*n"
+    )]
+    #[case("box chair\n", "Unknown word: box Unknown word: chair")]
+    fn test_format(#[case] input: &str, #[case] expected: &str) {
+        let actual = format(input);
         assert_eq!(expected, &actual);
     }
 }

@@ -48,8 +48,10 @@ When the string contains an unrecongized word, return a string stating: "Unknown
 cargo test
 ```
 
-- Run with input
+- Pipe string to program
 
 ```sh
-cargo run -- -i <SOME_STRING>
+echo "apple dog mango carrot horse foo broccoli potato mouse" | cargo run -q
+
+# => APPLE Unknown word: dog MANGO [carrot] h*o*r*s*e Unknown word: foo [broccoli] Unknown word: potato m*o*u*s*e
 ```
