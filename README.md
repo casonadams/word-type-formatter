@@ -20,7 +20,7 @@ Lists of supported fruits, vegetables, and animals are provided below.
 ## Goals
 
 - This problem is intended to be simple to solve algorithmically
-- The goad is to evalute your ablity to structure your solution such that it is
+- The goal is to evalute your ablity to structure your solution such that it is
   extensible, maintainable, and testable.
 - HINT: Your solution should include one or more "classes"
 
