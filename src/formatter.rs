@@ -34,7 +34,7 @@ pub fn format(input: &str) -> Result<String, FormatterError> {
     let mut output: Vec<String> = vec![];
 
     for word in words {
-        let clean_word: &str = &word.trim();
+        let clean_word: &str = word.trim();
         let formatter: Box<dyn Formatter> = match clean_word {
             "apple" => Box::new(FruitFormatter),
             "banana" => Box::new(FruitFormatter),
